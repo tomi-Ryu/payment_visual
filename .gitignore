@@ -3,3 +3,8 @@
 
 # selenium動作確認スクショ
 /screenshots/
+
+# 明細csvDL先
+/billing_statement_latest_csv/
+
+.DS_Store
