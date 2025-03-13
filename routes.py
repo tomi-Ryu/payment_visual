@@ -8,14 +8,14 @@ def provide_StaticFile(filePath):
   return static_file(filePath, root='./static/')
 
 @app.get("/")
-def get_Latest_Billing_statement_And_Save():
+def get_And_Save_Latest_Billing_statement_And_Display_Latest_Payment():
   # スクレイピングで取得
   get_Rakuten_Billing_Statement_Csv()
 
   # 明細をDBに保存
-  hoge = str(save_billing_statement())
+  save_billing_statement()
 
-  
-  return template("payment_Latest_Month", hoge=hoge)
+  # 最新月分の支払いデータをドーナツグラフで表示
+  return template("payment_Latest_Month", hoge="AAAAAAAAA")
 
 

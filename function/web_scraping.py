@@ -57,6 +57,9 @@ def get_Rakuten_Billing_Statement_Csv():
       driver.get(Url_curMonth)
       time.sleep(1)
 
+      # 画面最下部に広告がある場合の対策。下にスクロールしクリック対象を広告より上にする。
+      driver.execute_script('window.scrollBy(0, window.innerHeight);')
+
       csv_DL_Btn = driver.find_element(By.PARTIAL_LINK_TEXT, "CSV")
       csv_DL_Btn.click()
       time.sleep(1)
