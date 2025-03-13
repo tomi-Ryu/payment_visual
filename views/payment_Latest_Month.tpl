@@ -1,2 +1,2 @@
 % rebase('base.tpl')
-<b>Hello World</b>
+<div style="width: 800px;">{{hoge}}</div>

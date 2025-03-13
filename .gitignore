@@ -10,4 +10,7 @@
 # bottleを使うと出現するディレクトリ
 /**/__pycache__/
 
+# READMEに載せる
+erd.drawio
+
 .DS_Store
