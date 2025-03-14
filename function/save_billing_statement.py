@@ -1,6 +1,3 @@
-import json 
-import pymysql
-
 def save_billing_statement(db_connection):
 
   # 明細保存プロシージャ呼び出し
