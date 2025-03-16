@@ -1,5 +1,5 @@
 # 機密情報
-/secret/
+const/secret/
 
 # selenium動作確認スクショ
 /screenshots/

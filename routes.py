@@ -1,5 +1,5 @@
 from bottle import template, static_file
-from function.web_scraping import get_Rakuten_Billing_Statement_Csv
+from function.web_scraping import get_Enavi_Billing_Statement_Csv
 from function.save_billing_statement import save_billing_statement
 
 def setup_routes(app, db_connection):
@@ -10,7 +10,7 @@ def setup_routes(app, db_connection):
   @app.get("/")
   def get_And_Save_Latest_Billing_statement_And_Display_Latest_Payment():
     # スクレイピングで取得
-    #get_Rakuten_Billing_Statement_Csv()
+    get_Enavi_Billing_Statement_Csv()
 
     # 明細をDBに保存
     aaa = save_billing_statement(db_connection)

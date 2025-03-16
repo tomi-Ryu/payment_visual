@@ -1,15 +1,10 @@
-# DB接続
-import json
 import pymysql
 from bottle import Bottle
 from routes import setup_routes
+from const.const import DB_AUTH
 
-DB_Auth = json.load(open("./secret/db_secret.json", "r", encoding="utf-8"))
-host = DB_Auth["connectionInfo"]["host"]
-user = DB_Auth["connectionInfo"]["user"]
-password = DB_Auth["connectionInfo"]["password"]
-db_name = DB_Auth["connectionInfo"]["db_name"]
-db_connection = pymysql.connect(host=host, user=user, password=password, database=db_name)
+# 辞書型変数DB_AUTHを**で展開
+db_connection = pymysql.connect(**DB_AUTH)
 
 app = Bottle()
 setup_routes(app, db_connection)
