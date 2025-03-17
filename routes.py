@@ -10,12 +10,12 @@ def setup_routes(app, db_connection):
   @app.get("/")
   def get_And_Save_Latest_Billing_statement_And_Display_Latest_Payment():
     # スクレイピングで取得
-    get_Enavi_Billing_Statement_Csv()
+    #get_Enavi_Billing_Statement_Csv()
 
     # 明細をDBに保存
-    aaa = save_billing_statement(db_connection)
+    save_billing_statement(db_connection)
 
     # 最新月分の支払いデータをドーナツグラフで表示
-    return template("payment_Latest_Month", hoge=aaa)
+    return template("payment_Latest_Month")
 
 
