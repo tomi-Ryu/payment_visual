@@ -9,16 +9,16 @@ CREATE PROCEDURE update_Billing_Statement (
 )
 BEGIN
 	DECLARE restCnt_Statement INT;
-    DECLARE statement JSON;
-    DECLARE latest_Statement_Day DATE;
+  DECLARE statement JSON;
+  DECLARE latest_Statement_Day DATE;
 	CREATE TEMPORARY TABLE Statement_Tbl (
 		dt date,
-        paymentTarget char(250),
-        cost  mediumint
-    );
+		paymentTarget char(250),
+		cost  mediumint
+	);
     
-    SET restCnt_statement = JSON_LENGTH(statement_List);
-    IF restCnt_statement > 0 THEN
+	SET restCnt_statement = JSON_LENGTH(statement_List);
+	IF restCnt_statement > 0 THEN
 		# 明細情報を一時テーブルにInsert
 		WHILE restCnt_statement > 0 DO
 			SET statement = JSON_EXTRACT(statement_List, CONCAT('$','[',CAST(restCnt_statement-1 as CHAR) ,']'));
@@ -33,7 +33,7 @@ BEGIN
 		FROM Statement_Tbl
 		ORDER BY dt DESC
 		LIMIT 1;
-		# 最新日から最新月を求め、明細情報消去
+		# 最新日を利用し最新月の明細情報消去
 		DELETE FROM Billing_Statement_Rakuten
 		WHERE LAST_DAY(latest_Statement_Day - INTERVAL 1 MONTH) < useDate;
 		
@@ -41,6 +41,6 @@ BEGIN
 		INSERT Billing_Statement_Rakuten(useDate, paymentTarget, cost)
 		SELECT dt, paymentTarget, cost
 		FROM Statement_Tbl;
-    END IF;
+  END IF;
 END//
 DELIMITER ;
