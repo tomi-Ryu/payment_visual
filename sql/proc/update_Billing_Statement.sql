@@ -21,10 +21,10 @@ BEGIN
 	IF restCnt_statement > 0 THEN
 		# 明細情報を一時テーブルにInsert
 		WHILE restCnt_statement > 0 DO
-		SET statement = JSON_EXTRACT(statement_List, CONCAT('$','[',CAST(restCnt_statement-1 as CHAR) ,']'));
-		INSERT Statement_Tbl(dt, paymentTarget, cost) 
-		VALUES (CAST(JSON_EXTRACT(statement, '$[0]') as DATE), JSON_EXTRACT(statement, '$[1]'), JSON_EXTRACT(statement, '$[2]'));
-		SET restCnt_statement = restCnt_statement - 1;
+			SET statement = JSON_EXTRACT(statement_List, CONCAT('$','[',CAST(restCnt_statement-1 as CHAR) ,']'));
+			INSERT Statement_Tbl(dt, paymentTarget, cost) 
+			VALUES (CAST(JSON_EXTRACT(statement, '$[0]') as DATE), JSON_EXTRACT(statement, '$[1]'), JSON_EXTRACT(statement, '$[2]'));
+			SET restCnt_statement = restCnt_statement - 1;
 		END WHILE;
 
 		## 最新月の明細情報は全部消す
@@ -37,9 +37,9 @@ BEGIN
 		DELETE FROM Billing_Statement_Rakuten
 		WHERE LAST_DAY(latest_Statement_Day - INTERVAL 1 MONTH) < useDate;
 
-		# 明細情報保存
+		# 明細情報保存。内容が同じ明細を複数DLした可能性を考慮し、DISTINCT
 		INSERT Billing_Statement_Rakuten(useDate, paymentTarget, cost)
-		SELECT dt, paymentTarget, cost
+		SELECT DISTINCT dt, paymentTarget, cost
 		FROM Statement_Tbl;
 	END IF;
 END//

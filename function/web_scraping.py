@@ -6,7 +6,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from const.const import ENAVI_LOGIN_URL, ENAVI_CSV_DL_PATH, ENAVI_BILLING_STATEMENT_BASE_URL, ENAVI_USER_ID, ENAVI_PASSWORD
 
-def get_Enavi_Billing_Statement_Csv():
+def get_Enavi_Billing_Statement_Csv(month_span):
   def login():
     # ログインページ / ユーザid入力
     driver.get(ENAVI_LOGIN_URL)
@@ -39,8 +39,9 @@ def get_Enavi_Billing_Statement_Csv():
     # 全CSVファイルを削除
     for file in csv_files:
         os.remove(file)
-
-  def get_Enavi_billing_statement(month_span):
+  
+  # 取得明細数はmonth_span。一番最近の明細から取る。
+  def get_Enavi_billing_statement():
     for m_No in range(month_span):
       Url_curMonth = ENAVI_BILLING_STATEMENT_BASE_URL + str(m_No)
       driver.get(Url_curMonth)
@@ -64,7 +65,7 @@ def get_Enavi_Billing_Statement_Csv():
 
   login()
   all_billing_statement_delete()
-  # 引数: 取得明細数。一番最近の明細から取る。
-  get_Enavi_billing_statement(1)
+  
+  get_Enavi_billing_statement()
     
   driver.quit()
