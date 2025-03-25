@@ -10,18 +10,18 @@ CREATE FUNCTION calculate_Billing_Statement_Download_Span()
 RETURNS TINYINT
 BEGIN
 	DECLARE download_Span TINYINT;
-    DECLARE exist_Billing_Statement_Flg BOOLEAN;
-    
-    # 明細データがあるかどうか判定
+	DECLARE exist_Billing_Statement_Flg BOOLEAN;
+
+	# 明細データがあるかどうか判定
 	SELECT CASE COUNT(id) WHEN 0 THEN 0 ELSE 1 END INTO exist_Billing_Statement_Flg
-    FROM Billing_Statement_Rakuten;
-    
-    IF exist_Billing_Statement_Flg = 0
-		THEN 
-			RETURN 12;
-		ELSE
-			RETURN 1;
-	 END IF;
-     
+	FROM Billing_Statement_Rakuten;
+
+	IF exist_Billing_Statement_Flg = 0
+	THEN 
+		RETURN 12;
+	ELSE
+		RETURN 1;
+	END IF;
+
 END//
 DELIMITER ;
