@@ -44,6 +44,7 @@ BEGIN
 	DECLARE sumC INT;
 	DECLARE cnt INT;
 	DECLARE rgbStr char(20);
+	DECLARE graphLastRank TINYINT;
 
 	DECLARE curOrigDetail CURSOR FOR
 	SELECT useDate, paymentTarget, cost
@@ -56,7 +57,7 @@ BEGIN
 		SELECT
 			paymentTarget, 
 			cost, 
-			CASE WHEN ROW_NUMBER() OVER w < 10 THEN ROW_NUMBER() OVER w ELSE 10 END AS costRank
+			CASE WHEN ROW_NUMBER() OVER w < graphLastRank THEN ROW_NUMBER() OVER w ELSE graphLastRank END AS costRank
 		FROM targetGroupTbl
 		WINDOW w AS (ORDER BY cost DESC, paymentTarget ASC)
 	) as Tbl
@@ -85,6 +86,7 @@ BEGIN
 
 	SET cursorDone = FALSE;
 	SET graph = JSON_OBJECT("paymentTarget", JSON_ARRAY(), "cost", JSON_ARRAY(), "color", JSON_ARRAY());
+	SET graphLastRank = 10;
 	SET detail = JSON_ARRAY();
 	IF kind = 1 THEN
 		# グラフデータは生成せず、e-navi明細通りのデータのみを作成。
@@ -119,10 +121,10 @@ BEGIN
 
 			# graphデータ作成。コード行がそこまで増えなければ、カーソル部では格納のみの実装にさせた方がbetterか?
 			SET cnt = cnt + 1;
-			IF cnt <= 10 THEN
+			IF cnt <= graphLastRank THEN
 				SELECT rgb INTO rgbStr FROM Graph_Color WHERE `rank` = cnt;
 
-				IF cnt < 10 THEN
+				IF cnt < graphLastRank THEN
 					SET graph = JSON_ARRAY_APPEND(graph, '$.paymentTarget', pt);
 				ELSE
 					SET graph = JSON_ARRAY_APPEND(graph, '$.paymentTarget', "その他");
