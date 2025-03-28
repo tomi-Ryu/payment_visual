@@ -23,7 +23,7 @@ BEGIN
 		WHILE restCnt_statement > 0 DO
 			SET statement = JSON_EXTRACT(statement_List, CONCAT('$','[',CAST(restCnt_statement-1 as CHAR) ,']'));
 			INSERT Statement_Tbl(dt, paymentTarget, cost) 
-			VALUES (CAST(JSON_EXTRACT(statement, '$[0]') as DATE), JSON_EXTRACT(statement, '$[1]'), JSON_EXTRACT(statement, '$[2]'));
+			VALUES (CAST(JSON_EXTRACT(statement, '$[0]') as DATE), JSON_UNQUOTE(JSON_EXTRACT(statement, '$[1]')), JSON_EXTRACT(statement, '$[2]'));
 			SET restCnt_statement = restCnt_statement - 1;
 		END WHILE;
 
