@@ -21,5 +21,16 @@ def setup_routes(app, db_connection):
 
     # 最新月分の支払いデータをドーナツグラフで表示
     return template("payment_Latest_Month")
+  
+  @app.get("/graph_detail_Monthly_data/<yyyy_MM>/<kind>")
+  def get_graph_detail_Monthly_data(yyyy_MM, kind):
+    with db_connection.cursor() as cursor:
+      # cost_jsonはプロシージャのOUTパラメータ。
+      cost_json = "{}"
+      cursor.callproc("get_Confirmed_Monthly_Cost", (yyyy_MM, kind, cost_json))
+      # OUTパラメータの値を取得。意味は公式doc参照  https://pymysql.readthedocs.io/en/latest/index.html
+      cursor.execute("SELECT @_get_Confirmed_Monthly_Cost_2")
+      cost_json = cursor.fetchone()[0]
+
 
 
