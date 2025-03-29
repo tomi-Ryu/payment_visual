@@ -11,13 +11,13 @@
 */
 USE PaymentVisual;
 DELIMITER //
-CREATE FUNCTION get_Confirmed_Monthly_Cost(
-	yyyymm	CHAR(6),
-	kind	TINYINT
+CREATE PROCEDURE get_Confirmed_Monthly_Cost(
+	IN yyyymm	CHAR(6),
+	IN kind	TINYINT,
+    OUT retVal JSON
 )
-RETURNS JSON
 /*
-	ex)
+	retVal ex)
 		<1>
 		{
 			"graph": null,
@@ -139,6 +139,10 @@ BEGIN
 
 	END IF;
 
-	RETURN JSON_OBJECT('graph', graph, 'detail', detail);
+	# 1セッション内で複数回、本プロシージャを実行する場合(1ヶ月分の確定支払額を見れるページに複数回アクセスする場合)に対応。
+	DROP TABLE baseTbl;
+	DROP TABLE targetGroupTbl;
+
+	SET retVal = JSON_OBJECT('graph', graph, 'detail', detail);
 END//
 DELIMITER ;
