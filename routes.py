@@ -1,3 +1,4 @@
+import datetime
 from bottle import template, static_file
 from function.web_scraping import get_Enavi_Billing_Statement_Csv
 from function.save_billing_statement import save_billing_statement
@@ -18,19 +19,22 @@ def setup_routes(app, db_connection):
 
     # 明細をDBに保存
     #save_billing_statement(db_connection)
+    
+    for_Cache_Buster = str(datetime.datetime.now())
+    YYYY_hyphen_MM = for_Cache_Buster[:7]
 
     # 最新月分の支払いデータをドーナツグラフで表示
-    return template("payment_Latest_Month")
+    return template("payment_Monthly_data",for_Cache_Buster=for_Cache_Buster, YYYY_hyphen_MM=YYYY_hyphen_MM)
   
   @app.get("/graph_detail_Monthly_data/<yyyy_MM>/<kind>")
   def get_graph_detail_Monthly_data(yyyy_MM, kind):
+    cost_json = "{}"
     with db_connection.cursor() as cursor:
       # cost_jsonはプロシージャのOUTパラメータ。
-      cost_json = "{}"
       cursor.callproc("get_Confirmed_Monthly_Cost", (yyyy_MM, kind, cost_json))
       # OUTパラメータの値を取得。意味は公式doc参照  https://pymysql.readthedocs.io/en/latest/index.html
       cursor.execute("SELECT @_get_Confirmed_Monthly_Cost_2")
       cost_json = cursor.fetchone()[0]
 
-
+    return cost_json
 
