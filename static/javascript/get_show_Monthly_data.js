@@ -29,6 +29,11 @@ function get_show_Monthly_data() {
     chart.destroy();
   }
 
+  // データ表示初期状態
+  graph_Instead_Element.innerHTML = "Loading Data";
+  detail_Element.innerHTML = "Loading Data";
+  error_Show_Element.innerHTML = "";
+
   // カレンダーとラジオボタンの状況に対応するデータを取得し、適切に表示させる。
   fetch(`${url}graph_detail_Monthly_data/${YYYYMM}/${kind_Number}`).then(res => {
     if (!res.ok) {
@@ -49,6 +54,7 @@ function get_show_Monthly_data() {
 
           if (paymentTarget.length === 0){
             graph_Instead_Element.innerHTML = "No Data";
+            graph_Instead_Element.style.color = "white";
           } else {
             graph_Instead_Element.innerHTML = "";
             // chart.jsの機能はcdnから読み込まれる。
@@ -62,18 +68,30 @@ function get_show_Monthly_data() {
                   backgroundColor: color,
                   hoverOffset: 10
                 }]
+              },
+              options: {
+                plugins: {
+                  legend: {
+                    labels: {
+                      color: 'white'
+                    }
+                  }
+                }
               }
             });
           }     
         } else {
           graph_Instead_Element.innerHTML = "No Data";
+          graph_Instead_Element.style.color = "white";
         }
 
         // detailデータ表示
         if (detail.length === 0){
           detail_Element.innerHTML = "No Data";
+          detail_Element.style.color = "white";
         } else {
           detail_Element.innerHTML = detail.toString();
+          detail_Element.style.color = "white";
         }    
       });
     }
@@ -82,12 +100,9 @@ function get_show_Monthly_data() {
     graph_Instead_Element.innerHTML = "";
     detail_Element.innerHTML = "";
     error_Show_Element.innerHTML = `${error}`;
+    error_Show_Element.style.color = "white";
   });
 }
-
-// データ表示初期状態
-graph_Instead_Element.innerHTML = "Loading Data";
-detail_Element.innerHTML = "Loading Data";
 
 // イベントリスナー登録
 window.addEventListener("load", get_show_Monthly_data);

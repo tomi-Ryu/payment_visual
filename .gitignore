@@ -14,3 +14,5 @@ const/secret/
 erd.drawio
 
 .DS_Store
+
+*.css.map
