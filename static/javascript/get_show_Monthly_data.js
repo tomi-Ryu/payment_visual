@@ -90,8 +90,48 @@ function get_show_Monthly_data() {
           detail_Element.innerHTML = "No Data";
           detail_Element.style.color = "white";
         } else {
-          detail_Element.innerHTML = detail.toString();
-          detail_Element.style.color = "white";
+          //// テーブルデータ作成
+          // テーブル凡例の定義
+          const headersByKind = {
+            "1": ["日付", "利用対象", "金額"],
+            "2": ["利用対象", "金額"]
+          };
+
+          // 既存の内容をクリア
+          detail_Element.innerHTML = "";
+
+          // テーブル要素を作成
+          const table = document.createElement("table");
+          table.style.borderCollapse = "collapse";
+          table.style.marginTop = "20px";
+          table.style.marginLeft = "auto";
+          table.style.marginRight = "auto";
+
+          // ヘッダー行の作成
+          const headerRow = document.createElement("tr");
+          headersByKind[kind_Number].forEach(headerText => {
+            const th = document.createElement("th");
+            th.textContent = headerText;
+            th.style.color = "white";
+            headerRow.appendChild(th);
+          });
+          table.appendChild(headerRow);
+
+          // データ行の作成
+          detail.forEach(rowData => {
+            const row = document.createElement("tr");
+            rowData.forEach(cellData => {
+              const td = document.createElement("td");
+              const displayText = cellData === null ? "---" : String(cellData);
+              td.textContent = displayText;
+              td.style.color = "white";
+              row.appendChild(td);
+            });
+            table.appendChild(row);
+          });
+
+          // テーブルをDOMに追加
+          detail_Element.appendChild(table);
         }    
       });
     }

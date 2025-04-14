@@ -8,7 +8,7 @@
 
 
   <input type="month" id="calendar" min="2024-01" max="2099-12" value="{{YYYY_hyphen_MM}}" />
-  <div>
+  <div class="radio_Btn">
     <input type="radio" id="orig" name="data_kind" value="1" checked required/>
     <label for="orig">orig</label>
     <input type="radio" id="grp" name="data_kind" value="2" />

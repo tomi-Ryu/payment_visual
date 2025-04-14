@@ -1,3 +1,31 @@
 body {
   background-color: rgb(30, 29, 29);
+  margin: 0;
 }
+
+header {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  /* bodyのbackground-colorと同じ */
+  color: rgb(30, 29, 29);
+
+  /* logoの装飾 */
+  div {
+    margin-left: 20px;
+    margin-right: 20px;
+    font-weight: bold;
+
+    span {
+      color: red;
+    }
+  }
+
+  ol {
+    padding-inline-start: 0;
+    li {
+      list-style-type: none;
+    }
+  }
+}
+
