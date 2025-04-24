@@ -7,9 +7,8 @@ body {
 header {
   display: flex;
   align-items: center;
-  background-color: white;
-  /* bodyのbackground-colorと同じ */
-  color: rgb(30, 29, 29);
+  background-color: rgb(144, 143, 143);
+  color: white;
   /* logoの装飾 */
 }
 header div {
@@ -25,4 +24,8 @@ header ol {
 }
 header ol li {
   list-style-type: none;
+}
+header ol li a {
+  text-decoration: none;
+  color: white;
 }/*# sourceMappingURL=base.css.map */

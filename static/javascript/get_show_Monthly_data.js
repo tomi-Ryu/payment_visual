@@ -97,6 +97,9 @@ function get_show_Monthly_data() {
             "2": ["利用対象", "金額"]
           };
 
+          // 文字列の表示において右側の列と連続しないようにスペースを設ける。ex) 家賃150000→家賃 150000
+          const column_left_Space = "10px";
+
           // 既存の内容をクリア
           detail_Element.innerHTML = "";
 
@@ -113,6 +116,7 @@ function get_show_Monthly_data() {
             const th = document.createElement("th");
             th.textContent = headerText;
             th.style.color = "white";
+            th.style.paddingLeft = column_left_Space;
             headerRow.appendChild(th);
           });
           table.appendChild(headerRow);
@@ -125,6 +129,7 @@ function get_show_Monthly_data() {
               const displayText = cellData === null ? "---" : String(cellData);
               td.textContent = displayText;
               td.style.color = "white";
+              td.style.paddingLeft = column_left_Space;
               row.appendChild(td);
             });
             table.appendChild(row);

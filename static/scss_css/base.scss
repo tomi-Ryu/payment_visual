@@ -6,9 +6,8 @@ body {
 header {
   display: flex;
   align-items: center;
-  background-color: white;
-  /* bodyのbackground-colorと同じ */
-  color: rgb(30, 29, 29);
+  background-color: rgb(144, 143, 143);
+  color: white;
 
   /* logoの装飾 */
   div {
@@ -25,6 +24,10 @@ header {
     padding-inline-start: 0;
     li {
       list-style-type: none;
+       a {
+        text-decoration: none;
+        color: white;
+       }
     }
   }
 }
