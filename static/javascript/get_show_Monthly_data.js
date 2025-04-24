@@ -29,6 +29,11 @@ function get_show_Monthly_data() {
     chart.destroy();
   }
 
+  // データ表示初期状態
+  graph_Instead_Element.innerHTML = "Loading Data";
+  detail_Element.innerHTML = "Loading Data";
+  error_Show_Element.innerHTML = "";
+
   // カレンダーとラジオボタンの状況に対応するデータを取得し、適切に表示させる。
   fetch(`${url}graph_detail_Monthly_data/${YYYYMM}/${kind_Number}`).then(res => {
     if (!res.ok) {
@@ -49,6 +54,7 @@ function get_show_Monthly_data() {
 
           if (paymentTarget.length === 0){
             graph_Instead_Element.innerHTML = "No Data";
+            graph_Instead_Element.style.color = "white";
           } else {
             graph_Instead_Element.innerHTML = "";
             // chart.jsの機能はcdnから読み込まれる。
@@ -62,18 +68,75 @@ function get_show_Monthly_data() {
                   backgroundColor: color,
                   hoverOffset: 10
                 }]
+              },
+              options: {
+                plugins: {
+                  legend: {
+                    labels: {
+                      color: 'white'
+                    }
+                  }
+                }
               }
             });
           }     
         } else {
           graph_Instead_Element.innerHTML = "No Data";
+          graph_Instead_Element.style.color = "white";
         }
 
         // detailデータ表示
         if (detail.length === 0){
           detail_Element.innerHTML = "No Data";
+          detail_Element.style.color = "white";
         } else {
-          detail_Element.innerHTML = detail.toString();
+          //// テーブルデータ作成
+          // テーブル凡例の定義
+          const headersByKind = {
+            "1": ["日付", "利用対象", "金額"],
+            "2": ["利用対象", "金額"]
+          };
+
+          // 文字列の表示において右側の列と連続しないようにスペースを設ける。ex) 家賃150000→家賃 150000
+          const column_left_Space = "10px";
+
+          // 既存の内容をクリア
+          detail_Element.innerHTML = "";
+
+          // テーブル要素を作成
+          const table = document.createElement("table");
+          table.style.borderCollapse = "collapse";
+          table.style.marginTop = "20px";
+          table.style.marginLeft = "auto";
+          table.style.marginRight = "auto";
+
+          // ヘッダー行の作成
+          const headerRow = document.createElement("tr");
+          headersByKind[kind_Number].forEach(headerText => {
+            const th = document.createElement("th");
+            th.textContent = headerText;
+            th.style.color = "white";
+            th.style.paddingLeft = column_left_Space;
+            headerRow.appendChild(th);
+          });
+          table.appendChild(headerRow);
+
+          // データ行の作成
+          detail.forEach(rowData => {
+            const row = document.createElement("tr");
+            rowData.forEach(cellData => {
+              const td = document.createElement("td");
+              const displayText = cellData === null ? "---" : String(cellData);
+              td.textContent = displayText;
+              td.style.color = "white";
+              td.style.paddingLeft = column_left_Space;
+              row.appendChild(td);
+            });
+            table.appendChild(row);
+          });
+
+          // テーブルをDOMに追加
+          detail_Element.appendChild(table);
         }    
       });
     }
@@ -82,12 +145,9 @@ function get_show_Monthly_data() {
     graph_Instead_Element.innerHTML = "";
     detail_Element.innerHTML = "";
     error_Show_Element.innerHTML = `${error}`;
+    error_Show_Element.style.color = "white";
   });
 }
-
-// データ表示初期状態
-graph_Instead_Element.innerHTML = "Loading Data";
-detail_Element.innerHTML = "Loading Data";
 
 // イベントリスナー登録
 window.addEventListener("load", get_show_Monthly_data);
