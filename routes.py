@@ -37,4 +37,21 @@ def setup_routes(app, db_connection):
       cost_json = cursor.fetchone()[0]
 
     return cost_json
+  
+  ## 以下、基本的にエラーhttpステータスコードに対応したメソッドが実行される。
+
+  @app.error(400)
+  def error400(error):
+    return "400 Bad Request"
+
+  @app.error(404)
+  def error404(error):
+    return "404 Not Found"
+  
+  # 以下、bottle公式docより引用
+  # All exceptions other than HTTPResponse or HTTPError will result in a 500 Internal Server Error response
+  # 例えば、SQL処理でエラーが出た際に実行される。
+  @app.error(500)
+  def error500(error):
+    return "500 Internal Server Error"
 
