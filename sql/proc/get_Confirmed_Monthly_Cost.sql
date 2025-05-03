@@ -14,14 +14,14 @@ DELIMITER //
 CREATE PROCEDURE get_Confirmed_Monthly_Cost(
 	IN yyyymm	CHAR(6),
 	IN kind	TINYINT,
-    OUT retVal JSON
+	OUT retVal JSON
 )
 /*
 	retVal ex)
 		<1>
 		{
 			"graph": null,
-			"detail": [[null,"家賃",120000],["2025-01-05","オーケー",28000]]
+			"detail": [["家賃",120000],["オーケー",20000],["オーケー",8000]]
 		}
 
 		<2>
@@ -31,7 +31,7 @@ CREATE PROCEDURE get_Confirmed_Monthly_Cost(
 				"cost":[120000,28000],
 				"color":["rgb(255, 0, 0)","rgb(255, 178, 153)"]
 			},
-			"detail": [["家賃",120000],["オーケー",20000],["オーケー",8000]]
+			"detail": [[null,"家賃",120000],["2025-01-05","オーケー",28000]]
 		}
 */
 BEGIN
