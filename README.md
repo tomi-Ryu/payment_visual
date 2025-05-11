@@ -25,8 +25,8 @@ https://github.com/user-attachments/assets/e2498311-d090-4be2-821c-4afab353681a
 ![スクリーンショット 2025-05-03 21 46 17](https://github.com/user-attachments/assets/fd9de679-7d12-4f23-aafa-031a20aa6f50)
 
 # ER図
-※Categoryテーブルは未作成。
-![スクリーンショット 2025-05-03 22 01 03](https://github.com/user-attachments/assets/370afe1b-67fe-4f0b-9a6d-87e2ce8f3acf)
+※Category_Setテーブルは未作成。
+![スクリーンショット 2025-05-11 18 17 46](https://github.com/user-attachments/assets/fffcacdc-75b4-4aa3-be6d-31edcb9f38bd)
 
 # 使用ツール
 html<br/>
